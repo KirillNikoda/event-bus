@@ -1,7 +1,7 @@
-const express = require("express");
-const { randomBytes } = require("crypto");
-const cors = require("cors");
-const axios = require("axios");
+const express = require('express');
+const { randomBytes } = require('crypto');
+const cors = require('cors');
+const axios = require('axios');
 
 const app = express();
 
@@ -10,12 +10,16 @@ app.use(cors());
 
 const posts = {};
 
-app.get("/posts", (req, res) => {
+app.get('/posts', (req, res) => {
   res.send(posts);
 });
 
-app.post("/posts", (req, res) => {
-  const id = randomBytes(4).toString("hex");
+app.post('/events', (req, res) => {
+  console.log('event emitted');
+});
+
+app.post('/posts', (req, res) => {
+  const id = randomBytes(4).toString('hex');
   console.log(req.body);
   const { title } = req.body;
   posts[id] = {
@@ -23,8 +27,8 @@ app.post("/posts", (req, res) => {
     title,
   };
 
-  axios.post("http://localhost:4005/events", {
-    type: "post_created",
+  axios.post('http://localhost:4005/events', {
+    type: 'post_created',
     data: {
       id,
       title,
@@ -35,5 +39,5 @@ app.post("/posts", (req, res) => {
 });
 
 app.listen(4000, () => {
-  console.log("listening on port 4000");
+  console.log('listening on port 4000');
 });
